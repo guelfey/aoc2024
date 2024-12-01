@@ -26,13 +26,27 @@ fn main() {
     right.sort();
 
     let mut total = 0;
-    for (i, l) in left.iter().enumerate() {
-        let r = right[i];
-        total += if r > *l {
-            r - *l
-        } else {
-            *l - r
-        };
+    let mut ri = 0;
+    let mut lastnum = 0;
+    let mut lastscore = 0;
+    for l in left.iter() {
+        let mut count = 0;
+        if *l == lastnum {
+            total += lastscore;
+            continue;
+        }
+        loop {
+            if ri == right.len() || right[ri] > *l {
+                break;
+            }
+            if right[ri] == *l {
+                count += 1;
+            }
+            ri += 1;
+        }
+        lastscore = count * *l;
+        total += lastscore;
+        lastnum = *l;
     }
 
     println!("{total}");
